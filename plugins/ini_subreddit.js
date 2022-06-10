@@ -12,4 +12,4 @@ handler.help = ['subreddit <search>']
 handler.tags = ['internet']
 handler.command = /^(sr|subreddit)$/i
 
-module.exports = handler
+export default handler
