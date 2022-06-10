@@ -1,23 +1,17 @@
-import { sticker } from ('../lib/sticker')
-import { MessageType } from ('@adiwajshing/baileys')
+let fetch = require("node-fetch")
+const { sticker } = require('../lib/sticker')
+const { MessageType } = require('@adiwajshing/baileys')
 
-let handler = async (m, { conn, text }) => {
-  try {
-    let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.quoted.sender ? m.quoted.sender : m.sender
-    let bonk = global.API('https://hardianto.xyz', '/api/bonk', {
-    by: await conn.getProfilePicture(m.sender).catch(_ => 'https://telegra.ph/file/7995e73e508ee011722b0.png'),
-    for: await conn.getProfilePicture(who).catch(_ => 'https://telegra.ph/file/7995e73e508ee011722b0.png'),
-    apikey: 'hardianto'})
-    let stiker = await sticker(null, bonk, 'Bonk', global.author)
-  conn.sendMessage(m.chat, stiker, MessageType.sticker, {
-    quoted: m
-  })
-  } catch (e) {
-  m.reply('Conversion Failed')
-  }
+let handler = async(m, { conn }) => {
+  let res = await fetch(global.API('https://api.waifu.pics', '/sfw/bonk'))
+  let json = await res.json()
+  let stiker = await sticker(null, json.url, global.packname, global.author)
+  if (stiker) return conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, false, { asSticker: true })
+  throw stiker.toString()
 }
-handler.help = ['bonk']
-handler.tag = ['sticker']
-handler.command = /^bonk$/i
+handler.help = ['stickerbonk']
+handler.tags = ['sticker']
+handler.command = /^bonk|stickerbonk|stikerbonk$/i
+handler.limit = true
 
 module.exports = handler
