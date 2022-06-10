@@ -12,4 +12,4 @@ handler.tags = ['nsfw']
 handler.command = /^(ass|bdsm|blowjob|boobjob|cum|creampie|cuckold|ero|elves|femdom|foot|gangbang|glasses|hentai|incest|masturbation|pantsu|orgy|tentacles|thighs|uniform|vagina|yuri)$/i
 
 
-module.exports = handler
+export default handler
